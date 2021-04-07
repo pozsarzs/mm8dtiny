@@ -1,0 +1,29 @@
+# +----------------------------------------------------------------------------+
+# | MM8DTiny v0.1 * Central controlling device                                 |
+# | Copyright (C) 2021 Pozsar Zsolt <pozsar.zsolt@szerafingomba.hu>            |
+# | makefile                                                                   |
+# | Makefile for linux                                                         |
+# +----------------------------------------------------------------------------+
+
+dircpp=cpp
+dirh=h
+compile_options =-bc -d0 -i=$(dirh) -i=$(dircpp)
+objs = profport.o mm8dty.o
+
+all: mm8dty
+
+clean : .symbolic
+  rm -f mm8dty
+  rm -f *.o
+  rm -f *.map
+
+install : .symbolic
+  cp mm8dty ..\..
+
+.cpp : $(dircpp)
+
+.cpp.o :
+  wpp386 $[* $(compile_options)
+
+mm8dty: $(objs)
+  wlink format elf option map option stack=4096 name $@ file profport.o mm8dty.o

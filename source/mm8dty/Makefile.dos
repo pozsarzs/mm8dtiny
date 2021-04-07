@@ -1,0 +1,31 @@
+# +----------------------------------------------------------------------------+
+# | MM8DTiny v0.1 * Central controlling device                                 |
+# | Copyright (C) 2021 Pozsar Zsolt <pozsar.zsolt@szerafingomba.hu>            |
+# | makefile                                                                   |
+# | Makefile for DOS                                                           |
+# +----------------------------------------------------------------------------+
+
+processor=-3
+memory_model=-ml
+dircpp=cpp
+dirh=h
+compile_options = $(processor) $(memory_model) -bc -d0 -i=$(dirh) -i=$(dircpp)
+objs = profport.obj mm8dty.obj
+
+all: mm8dty.exe
+
+clean : .symbolic
+  @del mm8dty.exe
+  @del *.obj
+  @del *.map
+
+install : .symbolic
+  @copy mm8dty.exe ..\..
+
+.cpp : $(dircpp)
+
+.cpp.obj :
+  wpp $[* $(compile_options)
+
+mm8dty.exe: $(objs)
+  wlink system dos option eliminate option map option stack=4096 name $@ file *.obj

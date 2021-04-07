@@ -1,0 +1,49 @@
+MM8DTiny - Software for MM8D growing house controlling device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. About software
+-----------------
+  It is a tiny version of MM8D software for control MM6D and MM7D devices
+  with v0.3 or later software. This version of software uses external
+  program for get data from controllers via HTTP access.
+
+  It does not include SSH access, web interface, logging and debug
+  operation mode and the control does not calculate the outside temperature.
+
+Requirements:
+
+  Hardware:    AT or newer computer,
+               80386 or newer processor,
+               NIC.
+  Software:    FreeDOS,
+               Packet driver for NIC,
+               GNU Wget.
+
+2. How to get installer package for my OS?
+------------------------------------------
+a. Visit homepage (see later) to download installer packages:
+
+  DOS:      MM8DTY01.ZIP
+
+b. Download from Github
+
+  > git clone https://github.com/pozsarzs/mm8dtiny-sw.git
+
+3. How to set the program?
+-------------------------
+  Edit MM8DTINY.INI and CHANNELS\ENV-CH?.INI files.
+
+4. Contact
+----------
+   Homepage:             <http://www.szerafingomba.hu/softwares/>
+   Author:               Pozsar Zsolt
+   E-mail:               <pozsar.zsolt@szerafingomba.hu>
+   Phone:                +36 56/470-272
+   Mobile:               +36 30/249-5030
+   Postal address:       Pozsar Zsolt
+                         Kurazsi Fo ut 1.
+                         HU-5430 Tiszafoldvar
+                         Hungary
+
+--------------------------------------------------------------------------------
+ MM8Dtiny * Copyright (C) 2021 Pozsar Zsolt <pozsar.zsolt@szerafingomba.hu>
