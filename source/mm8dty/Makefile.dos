@@ -10,7 +10,7 @@ memory_model=-ml
 dircpp=cpp
 dirh=h
 compile_options = $(processor) $(memory_model) -bc -d0 -i=$(dirh) -i=$(dircpp)
-objs = profport.obj mm8dty.obj
+objs = profport.obj messages.obj mm8dty.obj
 
 all: mm8dty.exe
 

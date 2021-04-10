@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_LINE_LENGTH    80
+#define MAX_LINE_LENGTH    255
 
 int read_line(FILE *fp, char *bp)
 {
@@ -46,7 +46,7 @@ int get_private_profile_int(char *section, char *entry, int def, char *file_name
       fclose(fp);
       return(def);
     }
-  } while (strcmp(buff,t_section));
+  }  while (strcmp(buff,t_section));
   do
   {
     if (!read_line(fp,buff) || buff[0] == '\0')

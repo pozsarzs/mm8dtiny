@@ -8,7 +8,7 @@
 dircpp=cpp
 dirh=h
 compile_options =-bc -d0 -i=$(dirh) -i=$(dircpp)
-objs = profport.o mm8dty.o
+objs = profport.o messages.o server_h.o mm8dty.o
 
 all: mm8dty
 
@@ -26,4 +26,4 @@ install : .symbolic
   wpp386 $[* $(compile_options)
 
 mm8dty: $(objs)
-  wlink format elf option map option stack=4096 name $@ file profport.o mm8dty.o
+  wlink format elf option map option stack=4096 name $@ file profport.o file messages.o file server_h.o file mm8dty.o
