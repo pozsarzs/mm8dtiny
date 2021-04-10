@@ -6,8 +6,8 @@ GitHub: <https://github.com/pozsarzs/mm8dtiny-sw>
 **Software**
 
  - architecture:       i386
- - operation system:   DOS
+ - operation system:   DOS, Linux
  - version:            v0.1
  - language:           en
  - licence:            GPL v3.0
- - user interface:     CUI and serial console
+ - user interface:     CUI
