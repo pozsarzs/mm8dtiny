@@ -6,26 +6,26 @@
 # +----------------------------------------------------------------------------+
 
 processor=-3
-memory_model=-ml
+memory_model=-ms
 dircpp=cpp
 dirh=h
 compile_options = $(processor) $(memory_model) -bc -d0 -i=$(dirh) -i=$(dircpp)
-objs = profport.obj messages.obj mm8dty.obj
+objs = profport.obj messages.obj server_h.obj mm8dty.obj
 
-all: mm8dty.exe
+all: mm8dty.com
 
 clean : .symbolic
-  @del mm8dty.exe
+  @del mm8dty.com
   @del *.obj
   @del *.map
 
 install : .symbolic
-  @copy mm8dty.exe ..\..
+  @copy mm8dty.com ..\..
 
 .cpp : $(dircpp)
 
 .cpp.obj :
   wpp $[* $(compile_options)
 
-mm8dty.exe: $(objs)
-  wlink system dos option eliminate option map option stack=4096 name $@ file *.obj
+mm8dty.com: $(objs)
+  wlink system com option eliminate option map option stack=4096 name $@ file *.obj

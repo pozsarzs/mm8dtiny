@@ -24,11 +24,9 @@
 #include <string>
 #include <sys/stat.h>
 #include <unistd.h>
-//#include <ctime>
-//#include <ctype.h>
-//#include <dos.h>
-//#include <sys/io.h>
-//#include <time.h>
+#ifdef __DOS__
+#include <dos.h>
+#endif
 
 #include "profport.h"
 #include "messages.h"
@@ -39,15 +37,16 @@
 #define    COMPMV7                   (0)
 #define    COMPSV7                   (3)
 #define    DELAY                     (10)
-#define    ENVCONFDIR                "channels/"
 #define    HTTPGETPROG               "wget -qO"
 #define    MAINCONFFILE              "mm8dty.ini"
 #define    TEMPFILE                  "mm8dty.tmp"
 
 #ifdef __DOS__
 #define    DEG                       "ø"
+#define    ENVCONFDIR                "channels\\"
 #else
 #define    DEG                       "Â°"
+#define    ENVCONFDIR                "channels/"
 #endif
 
 using namespace std;
@@ -163,7 +162,9 @@ bool openwebpage(char *url)
 bool writelocalports()
 {
   int outdata;
+#ifndef __DOS__
   if (ioperm(lpt_adr[lpt_prt],1,1)) return false;
+#endif
   outdata = 64 * lpt_d6_led_error +
             32 * lpt_d5_led_warning +
             16 * lpt_d4_led_active +
@@ -175,7 +176,9 @@ bool writelocalports()
 bool readlocalports()
 {
   int indata;
+#ifndef __DOS__
   if (ioperm(lpt_adr[lpt_prt]+1,1,1)) return false;
+#endif
   indata = inp(lpt_adr[lpt_prt] + 1);
   lpt_error_mainssensor = indata & 8;
   if (lpt_error_mainssensor > 1) lpt_error_mainssensor = 1;
@@ -192,7 +195,9 @@ bool resetlocalports()
 {
   int outdata;
   outdata = 0;
+#ifndef __DOS__
   if (ioperm(lpt_adr[lpt_prt],1,1)) return false;
+#endif
   outp(lpt_adr[lpt_prt],outdata);
   if (inp(lpt_adr[lpt_prt]) == outdata) return true; else return false;
 }
@@ -336,144 +341,145 @@ bool loadenvirconf(char *directory, int channel)
   char *entry = (char*) malloc(32);
   char *filename = (char*) malloc(32);
   char *section = (char*) malloc(32);
-  sprintf(filename,"%senv-ch%d.ini",directory,channel);
+  sprintf(filename,"%senv-ch%d.ini", directory, channel);
+  printf("%s\n", filename);
   ifstream ifile;
   ifile.open(filename);
   if (ifile)
   {
-    section = "common";
-    entry = "gasconcentrate_max";
+    sprintf(section, "common");
+    sprintf(entry, "gasconcentrate_max");
     c_gasconcentrate_max[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    section = "hyphae";
-    entry = "humidity_min";
+    sprintf(section, "hyphae");
+    sprintf(entry, "humidity_min");
     h_humidity_min[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "humidifier_on";
+    sprintf(entry, "humidifier_on");
     h_humidifier_on[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "humidifier_off";
+    sprintf(entry, "humidifier_off");
     h_humidifier_off[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "humidity_max";
+    sprintf(entry, "humidity_max");
     h_humidity_max[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "temperature_min";
+    sprintf(entry, "temperature_min");
     h_temperature_min[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "heater_on";
+    sprintf(entry, "heater_on");
     h_heater_on[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "heater_off";
+    sprintf(entry, "heater_off");
     h_heater_off[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "temperature_max";
+    sprintf(entry, "temperature_max");
     h_temperature_max[channel - 1] = get_private_profile_int(section, entry, 0, filename);
     for (int h = 0; h < 24; h++)
     {
       if (h < 10)
       {
-        entry = "heater_disable_0X";
+        sprintf(entry, "heater_disable_0X");
         entry[16] = h + '0';
       }
       if (h > 9)
       {
-        entry = "heater_disable_1X";
+        sprintf(entry, "heater_disable_1X");
         entry[16] = h - 10 + '0';
       }
       if (h > 19)
       {
-        entry = "heater_disable_2X";
+        sprintf(entry, "heater_disable_2X");
         entry[16] = h - 20 + '0';
       }
       h_heater_disable[channel - 1][h] = get_private_profile_int(section, entry, 0, filename);
     }
-    entry = "light_on1";
+    sprintf(entry, "light_on1");
     h_light_on1[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "light_off1";
+    sprintf(entry, "light_off1");
     h_light_on1[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "light_on2";
+    sprintf(entry, "light_on2");
     h_light_on2[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "light_off2";
+    sprintf(entry, "light_off2");
     h_light_off2[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "vent_on";
+    sprintf(entry, "vent_on");
     h_vent_on[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "vent_off";
+    sprintf(entry, "vent_off");
     h_vent_off[channel - 1] = get_private_profile_int(section, entry, 0, filename);
     for (int h = 0; h < 24; h++)
     {
       if (h < 10)
       {
-        entry = "vent_disable_0X";
+        sprintf(entry, "vent_disable_0X");
         entry[14] = h + '0';
       }
       if (h > 9)
       {
-        entry = "vent_disable_1X";
+        sprintf(entry, "vent_disable_1X");
         entry[14] = h - 10 + '0';
       }
       if (h > 19)
       {
-        entry = "vent_disable_2X";
+        sprintf(entry, "vent_disable_2X");
         entry[14] = h - 20 + '0';
       }
       h_vent_disable[channel - 1][h] = get_private_profile_int(section, entry, 0, filename);
     }
-    section = "mushroom";
-    entry = "humidity_min";
+    sprintf(section,"mushroom");
+    sprintf(entry, "humidity_min");
     m_humidity_min[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "humidifier_on";
+    sprintf(entry, "humidifier_on");
     m_humidifier_on[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "humidifier_off";
+    sprintf(entry, "humidifier_off");
     m_humidifier_off[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "humidity_max";
+    sprintf(entry, "humidity_max");
     m_humidity_max[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "temperature_min";
+    sprintf(entry, "temperature_min");
     m_temperature_min[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "heater_on";
+    sprintf(entry, "heater_on");
     m_heater_on[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "heater_off";
+    sprintf(entry, "heater_off");
     m_heater_off[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "temperature_max";
+    sprintf(entry, "temperature_max");
     m_temperature_max[channel - 1] = get_private_profile_int(section, entry, 0, filename);
     for (int h = 0; h < 24; h++)
     {
       if (h < 10)
       {
-        entry = "heater_disable_0X";
+        sprintf(entry, "heater_disable_0X");
         entry[16] = h + '0';
       }
       if (h > 9)
       {
-        entry = "heater_disable_1X";
+        sprintf(entry, "heater_disable_1X");
         entry[16] = h - 10 + '0';
       }
       if (h > 19)
       {
-        entry = "heater_disable_2X";
+        sprintf(entry, "heater_disable_2X");
         entry[16] = h - 20 + '0';
       }
       m_heater_disable[channel - 1][h] = get_private_profile_int(section, entry, 0, filename);
     }
-    entry = "light_on1";
+    sprintf(entry, "light_on1");
     m_light_on1[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "light_off1";
+    sprintf(entry, "light_off1");
     m_light_on1[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "light_on2";
+    sprintf(entry, "light_on2");
     m_light_on2[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "light_off2";
+    sprintf(entry, "light_off2");
     m_light_off2[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "vent_on";
+    sprintf(entry, "vent_on");
     m_vent_on[channel - 1] = get_private_profile_int(section, entry, 0, filename);
-    entry = "vent_off";
+    sprintf(entry, "vent_off");
     m_vent_off[channel - 1] = get_private_profile_int(section, entry, 0, filename);
     for (int h = 0; h < 24; h++)
     {
       if (h < 10)
       {
-        entry = "vent_disable_0X";
+        sprintf(entry, "vent_disable_0X");
         entry[14] = h + '0';
       }
       if (h > 9)
       {
-        entry = "vent_disable_1X";
+        sprintf(entry, "vent_disable_1X");
         entry[14] = h - 10 + '0';
       }
       if (h > 19)
       {
-        entry = "vent_disable_2X";
+        sprintf(entry, "vent_disable_2X");
         entry[14] = h - 20 + '0';
       }
       m_vent_disable[channel - 1][h] = get_private_profile_int(section, entry, 0, filename);
@@ -494,32 +500,32 @@ bool loadmainconf(char *filename)
   ifile.open(filename);
   if (ifile)
   {
-    section = "enable";
-    entry = "ena_chX";
+    sprintf(section,"enable");
+    sprintf(entry,"ena_chX");
     for (int channel = 1; channel < 9; ++channel)
     {
       entry[6] = channel + '0';
       ena_ch[channel - 1] = get_private_profile_int(section, entry, 0, filename);
     }
-    section = "MM6D";
-    entry = "addr_mm6dchX";
+    sprintf(section,"MM6D");
+    sprintf(entry,"addr_mm6dchX");
     for (int channel = 1; channel < 9; ++channel)
     {
       entry[11] = channel + '0';
       get_private_profile_string(section,entry,"0.0.0.0",addr_mm6dch[channel - 1],255,filename);
     }
-    section = "MM7D";
-    entry = "addr_mm7dchX";
+    sprintf(section,"MM7D");
+    sprintf(entry,"addr_mm7dchX");
     for (int channel = 1; channel < 9; ++channel)
     {
       entry[11] = channel + '0';
       get_private_profile_string(section,entry,"0.0.0.0",addr_mm7dch[channel - 1],255,filename);
     }
-    section = "LPTport";
-    entry = "lpt_prt";
+    sprintf(section,"LPTport");
+    sprintf(entry,"lpt_prt");
     lpt_prt = get_private_profile_int(section, entry, 0, filename);
-    section = "user";
-    entry = "usr_uid";
+    sprintf(section,"user");
+    sprintf(entry,"usr_uid");
     get_private_profile_string(section,entry,"admin",usr_uid,255,filename);
   } else rc = false;
   free(entry);
@@ -681,7 +687,11 @@ void analise(int section)
 int server(bool loop)
 {
 #ifdef AUTOFEED_FOR_POWER
+#ifdef __DOS__
+  outp(lpt_adr[lpt_prt]+2,0);
+#else
   if (ioperm(lpt_adr[lpt_prt]+2,1,1)) outp(lpt_adr[lpt_prt]+2,0);
+#endif
 #endif
   // reset variables
   for (int channel = 0; channel < 8; channel++)
@@ -840,7 +850,11 @@ int server(bool loop)
     printf("%s%s\n", msg(31), msg(0));
     analise(2);
     printf(msg(36));
+#ifdef __DOS__
+    if (loop) delay(1000 * DELAY);
+#else
     if (loop) usleep(1000000 * DELAY);
+#endif
   } while (loop);
   // *** stop loop ***
   printf(msg(14));

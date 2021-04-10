@@ -12,25 +12,36 @@ MM8DTiny - Software for MM8D growing house controlling device
 
 Requirements:
 
-  Hardware:    AT or newer computer,
-               80386 or newer processor,
-               NIC.
-  Software:    FreeDOS,
-               Packet driver for NIC,
-               GNU Wget.
+  DOS version:
+    Hardware:    AT or newer computer,
+                 80386 or newer processor,
+                 NIC.
+    Software:    FreeDOS,
+                 Packet driver for NIC,
+                 GNU Wget.
+
+  Linux version:
+    Hardware:    AT or newer computer,
+                 80386 or newer processor,
+                 NIC.
+    Software:    GNU/Linux OS,
+                 GNU Wget.
 
 2. How to get installer package for my OS?
 ------------------------------------------
 a. Visit homepage (see later) to download installer packages:
 
-  DOS:      MM8DTY01.ZIP
+  DOS:           MM8DTY01.ZIP
+  Linux:         mm8dtiny-0.1-i386.tar.gz
+
+  (This packages contents GNU Wget.)
 
 b. Download from Github
 
   > git clone https://github.com/pozsarzs/mm8dtiny-sw.git
 
 3. How to set the program?
--------------------------
+--------------------------
   Edit MM8DTINY.INI and CHANNELS\ENV-CH?.INI files.
 
 4. Contact
@@ -46,4 +57,4 @@ b. Download from Github
                          Hungary
 
 --------------------------------------------------------------------------------
- MM8Dtiny * Copyright (C) 2021 Pozsar Zsolt <pozsar.zsolt@szerafingomba.hu>
+ MM8DTiny * Copyright (C) 2021 Pozsar Zsolt <pozsar.zsolt@szerafingomba.hu>
