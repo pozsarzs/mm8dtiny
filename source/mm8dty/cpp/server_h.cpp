@@ -44,6 +44,12 @@
 #define    MAINCONFFILE              "mm8dty.ini"
 #define    TEMPFILE                  "mm8dty.tmp"
 
+#ifdef __DOS__
+#define    DEG                       "ø"
+#else
+#define    DEG                       "Â°"
+#endif
+
 using namespace std;
 
 // general variables
@@ -573,7 +579,7 @@ void analise(int section)
       if (ena_ch[channel] > 0)
       {
         printf("  CH #%d:\n", channel+1);
-        printf("%s%d C\n", msg(50), in_temperature[channel]);
+        printf("%s%d %sC\n", msg(50), in_temperature[channel], DEG);
         printf("%s%d \%\n", msg(51), in_humidity[channel]);
         printf("%s%d \%\n", msg(52), in_gasconcentrate[channel]);
         if (in_opmode[channel] == 0)

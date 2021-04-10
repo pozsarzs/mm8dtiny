@@ -30,7 +30,7 @@ char const *msg(int const index)
      /* 10 */  "  Enabled channel(s):",
      /* 11 */  "* Key hit detected. (Hint: [ALT]-[X] - stop program.)",
      /* 12 */  "* Set MM6D device to default state on CH #",
-     /* 13 */  "\nUsage: mm8dtiny.exe [--help | -h] [--no-loop | -n] [--version | -v]\n",
+     /* 13 */  "\nUsage: mm8dtiny [--help | -h] [--no-loop | -n] [--version | -v]\n",
      /* 14 */  "STOPPING CONTROLLER PROGRAM...\n",
      /* 15 */  "  Interface port: LPT",
      /* 16 */  "  IP address of MM6D device on CH #",
