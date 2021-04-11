@@ -36,8 +36,8 @@
 #define    COMPSV6                   (3)
 #define    COMPMV7                   (0)
 #define    COMPSV7                   (3)
-#define    DELAY                     (10)
-#define    HTTPGETPROG               "wget -qO"
+#define    DELAY                     (30)
+#define    HTTPGETPROG               "wget -T 5 -qO"
 #define    MAINCONFFILE              "mm8dty.ini"
 #define    TEMPFILE                  "mm8dty.tmp"
 
@@ -251,6 +251,19 @@ bool readwriteMM7Ddevice(int channel)
     }
     free(input);
   }
+  blinkactiveled(0);
+  return rc;
+}
+
+bool setautomodeMM7Ddevice(int channel)
+{
+  bool rc;
+  char *url = (char*) malloc(255);
+  blinkactiveled(1);
+  sprintf(url,"%s/mode/auto?uid=%s", addr_mm7dch[channel], usr_uid);
+  rc = openwebpage(url);
+  free(url);
+  blinkactiveled(0);
   return rc;
 }
 
@@ -342,7 +355,6 @@ bool loadenvirconf(char *directory, int channel)
   char *filename = (char*) malloc(32);
   char *section = (char*) malloc(32);
   sprintf(filename,"%senv-ch%d.ini", directory, channel);
-  printf("%s\n", filename);
   ifstream ifile;
   ifile.open(filename);
   if (ifile)
@@ -804,6 +816,15 @@ int server(bool loop)
     printf(msg(46));
     return 4;
   }
+  // set auto mode of MM7D device
+  for (int channel = 0; channel < 8; channel++)
+    if (ena_ch[channel] > 0)
+    {
+      printf("%s%d%s", msg(33), channel+1, msg(0));
+      if (setautomodeMM7Ddevice(channel))
+        printf(msg(4)); else
+        printf(msg(5));
+    }
   // *** start loop ***
   printf(msg(20));
   do

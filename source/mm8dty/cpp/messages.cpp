@@ -50,7 +50,7 @@ char const *msg(int const index)
      /* 30 */  "* Write data to local port",
      /* 31 */  "* Analise data",
      /* 32 */  "* Get parameters of air from MM7D on CH #",
-     /* 33 */  "* Set status LEDs of MM7D on CH #",
+     /* 33 */  "* Set MM7D to auto mode on CH #",
      /* 34 */  "* Set outputs of MM6D on CH #",
      /* 35 */  "* * * Begin of processing loop * * *\n",
      /* 36 */  "* * * End of processing loop * * *\n",
