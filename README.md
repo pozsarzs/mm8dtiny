@@ -10,4 +10,4 @@ GitHub: <https://github.com/pozsarzs/mm8dtiny.git>
  - version:            v0.1
  - language:           en
  - licence:            GPL v3.0
- - user interface:     CUI
+ - user interface:     CLI
