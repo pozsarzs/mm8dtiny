@@ -1,6 +1,6 @@
 **MM8Dtiny * Central controlling device for growing house**  
-Copyright (C) 2021 Pozsar Zsolt <pozsar.zsolt@szerafingomba.hu>  
-Homepage: <http://www.szerafingomba.hu/softwares/>  
+Copyright (C) 2021 Pozsar Zsolt <pozsarzs@gmail.com>  
+Homepage: <http://www.pozsarzs.hu>  
 GitHub: <https://github.com/pozsarzs/mm8dtiny.git>
 
 **Software**
